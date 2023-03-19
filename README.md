@@ -2,7 +2,7 @@
 
 ##### Table of content
 ###### Preface
-1. [What is easyDB](#1_What_is_easyDB_18)
+1. [What is sayuDB](#1_What_is_sayuDB_18)
 
 ###### Tutorial
 1. [Getting Started](#1-getting-started)
@@ -16,8 +16,8 @@
 
 ---
 # Preface
-### 1. What is easyDB
-EasyDB is an database management system based on python and JSON. Developed at Clee Ltd. This project actually for personal purpose only but for some reason I publish it.
+### 1. What is sayuDB
+sayuDB is an database management system based on python and JSON. Developed at Clee Ltd. This project actually for personal purpose only but for some reason I publish it.
 It supports a large part of the SQL standard feature
 
 # Tutorial
@@ -31,26 +31,26 @@ The first test to see whether you can access the database server is to try to cr
 
 To create a new database, in this example named `myDB`, you use the following funtion:
 ```python
-import easyDB
+import sayuDB
 
 # Creating database
-easyDB.create_database('myDB')
+sayuDB.create_database('myDB')
 ```
-You can also create databases with other names. easyDB allows you to create any number of databases at a given site. Database names must have an alphabetic first character, can not contain space and are limited to 63 bytes in length.
+You can also create databases with other names. sayuDB allows you to create any number of databases at a given site. Database names must have an alphabetic first character, can not contain space and are limited to 63 bytes in length.
 
 If you do not want to use your database anymore you can remove it. For example, you can destroy it using the following function:
 ```python
-import easyDB
+import sayuDB
 
-easyDB.drop_database('myDB')
+sayuDB.drop_database('myDB')
 ```
 
 You can import export using:
 ```python
 # Exporting database (must use file name)
-easyDB.export_database('<name_of_database>', path_='<path>/filename.ezdb')
+sayuDB.export_database('<name_of_database>', path_='<path>/filename.ezdb')
 # Importing database
-easyDB.import_database(path_='/<path>/filename.ezdb')
+sayuDB.import_database(path_='/<path>/filename.ezdb')
 ```
 
 #### 1.3 Creating a New Table
@@ -58,9 +58,9 @@ You can create a new table by specifying the table name, along with all column n
 
 you must define the database first with:
 ```python
-import easyDB
+import sayuDB
 
-db = easyDB.easyDB(database='myDB')
+db = sayuDB.sayuDB(database='myDB')
 ```
 
 then
@@ -71,7 +71,7 @@ db.create_table('people', [
     ['city','str']
 ])
 ```
-easyDB currenly support data types `str`,`int`,`float`,`dict`
+sayuDB currenly support data types `str`,`int`,`float`,`dict`
 
 If you want to show the table, using this following function:
 ```python
