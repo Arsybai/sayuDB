@@ -6,28 +6,28 @@ def create_database(name: str):
     config_ = {
         "name":name
     }
-    if not os.path.isfile(f'easyDB/datas/{name}.ezdb'):
-        with open(f'easyDB/datas/{name}.ezdb', 'w') as cdb:
+    if not os.path.isfile(f'sayuDB/datas/{name}.ezdb'):
+        with open(f'sayuDB/datas/{name}.ezdb', 'w') as cdb:
             json.dump(config_, cdb, indent=4)
         print(f"Database created [ {name} ]")
     else:
         print("Database already exist")
         
 def show_databases():
-    databases = os.listdir('easyDB/datas/')
+    databases = os.listdir('sayuDB/datas/')
     for i in databases:
         print(f"> {i}")
         
 def drop_database(name: str):
-    if os.path.isfile(f'easyDB/datas/{name}.ezdb'):
-        os.remove(f'easyDB/datas/{name}.ezdb')
+    if os.path.isfile(f'sayuDB/datas/{name}.ezdb'):
+        os.remove(f'sayuDB/datas/{name}.ezdb')
         print(f"Database dropped [ {name} ]")
     else:
         print("Database not found")
         
 def export_database(name: str, path_: str):
-    if os.path.isfile(f'easyDB/datas/{name}.ezdb'):
-        shutil.copyfile(f'easyDB/datas/{name}.ezdb', path_)
+    if os.path.isfile(f'sayuDB/datas/{name}.ezdb'):
+        shutil.copyfile(f'sayuDB/datas/{name}.ezdb', path_)
         print(f"Database exported [ {name}.ezdb ]")
     else:
         print("Database not found")
@@ -39,7 +39,7 @@ def import_database(path_: str):
                 db_ = eval(rdb.read())
             except:
                 db_ = rdb.read()
-        with open(f'easyDB/datas/{db_["name"]}.ezdb', 'w') as wdb:
+        with open(f'sayuDB/datas/{db_["name"]}.ezdb', 'w') as wdb:
             try:
                 json.dump(db_, wdb, indent=4)
                 print(f"Database imported [ {db_['name']} ]")
@@ -49,19 +49,19 @@ def import_database(path_: str):
         print("File or directory not found")
         
 
-class easyDB:
+class sayuDB:
     
     def __init__(self, database):
         self.database = database
         return None
     
     def save_table(self, name: str, content: object):
-        with open(f'easyDB/datas/{self.database}.ezdb', 'w') as wdb:
+        with open(f'sayuDB/datas/{self.database}.ezdb', 'w') as wdb:
             json.dump(content, wdb, indent=4)
         return
     
     def openDB(self):
-        with open(f'easyDB/datas/{self.database}.ezdb', 'r') as rdb:
+        with open(f'sayuDB/datas/{self.database}.ezdb', 'r') as rdb:
             db_ = eval(rdb.read())
         return db_
     
@@ -84,7 +84,7 @@ class easyDB:
         - int   
         - dict
         """
-        with open(f'easyDB/datas/{self.database}.ezdb', 'r') as rdb:
+        with open(f'sayuDB/datas/{self.database}.ezdb', 'r') as rdb:
             rdb = eval(rdb.read())
         if name in rdb:
             print("Table already exist")
@@ -101,7 +101,7 @@ class easyDB:
             print("Table created")
             
     def drop_table(self, name: str):
-        with open(f'easyDB/datas/{self.database}.ezdb', 'r') as rdb:
+        with open(f'sayuDB/datas/{self.database}.ezdb', 'r') as rdb:
             rdb = eval(rdb.read())
         if name not in rdb:
             print("Table not found")
