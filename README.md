@@ -5,14 +5,14 @@
 1. [What is easyDB](#1_What_is_easyDB_18)
 
 ###### Tutorial
-1. [Getting Started](#1_Getting_Started_23)
-1.1 [Installation](#11_Installation_24)
-1.2 [Creating database](#12_Creating_database_28)
-1.3 [Creating a New Table](#13_Creating_a_New_Table_55)
-1.4 [Populating a Table With Rows](#14_Populating_a_Table_With_Rows_90)
-1.5 [Querying a Table](#15_Querying_a_Table_97)
-1.6 [Updates](#Updates_155)
-1.7 [Deletion](#Deletion_170)
+1. [Getting Started](#1-getting-started)
+- 1.1 [Installation](#11-installation)
+- 1.2 [Creating database](#12-creating-database)
+- 1.3 [Creating a New Table](#13-creating-a-new-table)
+- 1.4 [Populating a table with rows](#14-pupulating-a-table-with-rows)
+- 1.5 [Querying a Table](#15-querying-a-table)
+- 1.6 [Updates](#updates)
+- 1.7 [Deletion](#17-deletion)
 
 ---
 # Preface
