@@ -1,0 +1,23 @@
+{
+    "name": "myDB",
+    "people": {
+        "name": "people",
+        "column": {
+            "name": "str",
+            "age": "int",
+            "city": "str"
+        },
+        "datas": [
+            {
+                "name": "Arsybai",
+                "age": 23,
+                "city": "Solo, Indonesia"
+            },
+            {
+                "name": "Moepoi",
+                "age": 21,
+                "city": "Jakarta, Indonesia"
+            }
+        ]
+    }
+}
