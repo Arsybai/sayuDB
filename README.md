@@ -23,7 +23,7 @@ It supports a large part of the SQL standard feature
 # Tutorial
 ### 1. Getting Started
 #### 1.1 Installation
-Before you can use PostgreSQL you need to install it, of course.
+Before you can use sayuDB you need to install it, of course.
 Just clone this repository and place it to your project folder.
 
 #### 1.2 Creating database
