@@ -16,7 +16,8 @@ def create_database(name: str):
 def show_databases():
     databases = os.listdir('sayuDB/datas/')
     for i in databases:
-        print(f"> {i}")
+        if '.ezdb' in i:
+            print(f"> {i.replace('.ezdb','')}")
         
 def drop_database(name: str):
     if os.path.isfile(f'sayuDB/datas/{name}.ezdb'):
@@ -27,7 +28,7 @@ def drop_database(name: str):
         
 def export_database(name: str, path_: str):
     if os.path.isfile(f'sayuDB/datas/{name}.ezdb'):
-        shutil.copyfile(f'sayuDB/datas/{name}.ezdb', path_)
+        shutil.copyfile(f'sayuDB/datas/{name}.ezdb', f"{path_}/{name}.ezdb")
         print(f"Database exported [ {name}.ezdb ]")
     else:
         print("Database not found")
@@ -168,7 +169,10 @@ class sayuDB:
                     sys.exit()
             elif db_[table]['column'][i] == 'dict':
                 try:
-                    data_[i] = eval(contents[idx])
+                    try:
+                        data_[i] = eval(contents[idx])
+                    except:
+                        data_[i] = eval(str(contents[idx]))
                 except:
                     print(f"The content typedata invalid at column {i} content {contents[idx]}")
                     sys.exit()
@@ -176,7 +180,7 @@ class sayuDB:
         db_[table]['datas'].append(data_)
         self.save_table(table, db_)
         
-    def select_row(self, table: str, col, where=None, order_by=None, as_json=False):
+    def select_row(self, table: str, col, where=None, order_by=None, as_json=False, limit=None):
         """_summary_
 
         Args:
@@ -187,7 +191,10 @@ class sayuDB:
             as_json (bool, optional): return as json or table. Defaults to False.
         """
         db_ = self.openDB()
-        datas_ = db_[table]['datas']
+        if limit != None:
+            datas_ = db_[table]['datas'][:limit]
+        else:
+            datas_ = db_[table]['datas'][:limit]
         if col == '*':
             datas_ = datas_
         else:
@@ -221,12 +228,22 @@ class sayuDB:
                     
         #the anu anu
         if as_json:
-            return eval(datas_)
+            try:
+                return eval(datas_)
+            except:
+                return datas_
         headeer_ = []
         rows_ = []
         try:
-            for i in datas_[0]:
-                headeer_.append(i)
+            if datas_ != []:
+                for i in datas_[0]:
+                    headeer_.append(i)
+            elif col == '*':
+                for i in db_[table]['column']:
+                    headeer_.append(i)
+            else:
+                for i in col:
+                    headeer_.append(i)
         except:
             for i in db_[table]['column']:
                 headeer_.append(i)
@@ -235,7 +252,7 @@ class sayuDB:
             for u in i:
                 row_.append(i[u])
             rows_.append(row_)
-        return tabulate(rows_, headers=headeer_)
+        return f"{tabulate(rows_, headers=headeer_)}\n\n{len(rows_)} Rows"
     
     def update_row(self, table: str, set_: str, where: str):
         db_ = self.openDB()
@@ -273,7 +290,6 @@ class sayuDB:
             idx = 0
             for i in db_[table]['datas']:
                 if str(i[col_]) == str(val_):
-                    print(i)
                     db_[table]['datas'].remove(db_[table]['datas'][idx])
                 idx += 1
         elif ' contain ' in where:
@@ -282,8 +298,63 @@ class sayuDB:
             idx = 0
             for i in db_[table]['datas']:
                 if str(val_) in str(i[col_]):
-                    print(i)
                     db_[table]['datas'].remove(db_[table]['datas'][idx])
                 idx += 1
             
         self.save_table(table, db_)
+
+    def alter_table_rename_column(self,table:str, col:str, to_:str):
+        db = self.openDB()
+        db[table]["column"][to_] = db[table]["column"][col]
+        del db[table]["column"][col]
+        for i in reversed(db[table]["datas"]):
+            data = i
+            data[to_] = data[col]
+            db[table]["datas"].append(data)
+            db[table]["datas"].remove(i)
+            del data[col]
+        self.save_table(table, db)
+        return
+                
+    def alter_table_add_column(self, table:str, col_name:str, datatypes:str):
+        db = self.openDB()
+        db[table]['column'][col_name] = datatypes
+        for i in db[table]['datas']:
+            if datatypes == 'str':
+                i[col_name] = "null"
+            elif datatypes == 'int':
+                i[col_name] = 0
+            elif datatypes == 'float':
+                i[col_name] = 0.0
+            elif datatypes == 'dict':
+                i[col_name] = {}
+            else:
+                sys.exit("Unknown datatypes")
+        self.save_table(table, db)
+        return
+    
+    def alter_table_drop_column(self, table:str, col_name:str):
+        db = self.openDB()
+        if col_name not in db[table]['column']:
+            sys.exit("Column not found")
+        del db[table]['column'][col_name]
+        for i in db[table]['datas']:
+            del i[col_name]
+        self.save_table(table, db)
+        return
+    
+    def copy_table(self, table:str, to_table:str):
+        db = self.openDB()
+        if table not in db or to_table not in db:
+            sys.exit("Table not found")
+        if db[table]['column'] != db[to_table]['column']:
+            sys.exit("The table structure must be same")
+        db[to_table]['datas'] = db[table]['datas'] + db[to_table]['datas']
+        self.save_table(to_table, db)
+        return
+    
+    def clear_table(self, table:str):
+        db = self.openDB()
+        db[table]['datas'] = []
+        self.save_table(table, db)
+        return
