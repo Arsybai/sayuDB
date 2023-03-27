@@ -28,6 +28,10 @@ Just clone this repository and place it to your project folder.
 ```shell
 > pip3 install sayuDB
 ```
+for help menu:
+```shell
+> python3 sayuDB --h
+```
 
 #### 1.2 Creating database
 The first test to see whether you can access the database server is to try to create a database.
