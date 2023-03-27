@@ -25,6 +25,9 @@ It supports a large part of the SQL standard feature
 #### 1.1 Installation
 Before you can use sayuDB you need to install it, of course.
 Just clone this repository and place it to your project folder.
+```shell
+> pip3 install sayuDB
+```
 
 #### 1.2 Creating database
 The first test to see whether you can access the database server is to try to create a database.
