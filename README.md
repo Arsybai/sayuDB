@@ -30,7 +30,7 @@ Just clone this repository and place it to your project folder.
 ```
 for help menu:
 ```shell
-> python3 sayuDB --h
+> python3 -m sayuDB --h
 ```
 
 #### 1.2 Creating database
