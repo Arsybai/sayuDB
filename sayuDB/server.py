@@ -19,15 +19,15 @@ def decode_base64(encoded_string):
     decoded_string = decoded_bytes.decode('utf-8')
     return decoded_string
 
-with open('sayuDB/users.json', 'r') as user:
+with open(f'{os.path.dirname(__file__)}/users.json', 'r') as user:
     user = json.load(user)
-with open('sayuDB/config.json', 'r') as config:
+with open(f'{os.path.dirname(__file__)}/config.json', 'r') as config:
     config = json.load(config)
 
 def save_conf():
-    with open('sayuDB/users.json', 'w')as wconf:
+    with open('users.json', 'w')as wconf:
         json.dump(user, wconf, indent=4)
-    with open('sayuDB/config.json', 'w')as wconf:
+    with open('config.json', 'w')as wconf:
         json.dump(config, wconf, indent=4)
     return
 

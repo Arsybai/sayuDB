@@ -7,15 +7,15 @@ def create_database(name: str):
     config_ = {
         "name":name
     }
-    if not os.path.isfile(f'sayuDB/datas/{name}.ezdb'):
-        with open(f'sayuDB/datas/{name}.ezdb', 'w') as cdb:
+    if not os.path.isfile(f'{os.path.dirname(__file__)}/datas/{name}.ezdb'):
+        with open(f'{os.path.dirname(__file__)}/datas/{name}.ezdb', 'w') as cdb:
             json.dump(config_, cdb, indent=4)
         print(f"Database created [ {name} ]")
     else:
         print("Database already exist")
         
 def show_databases():
-    databases = os.listdir('sayuDB/datas/')
+    databases = os.listdir(f'{os.path.dirname(__file__)}/datas/')
     lists = []
     for i in databases:
         if '.ezdb' in i:
@@ -24,15 +24,15 @@ def show_databases():
     return lists
         
 def drop_database(name: str):
-    if os.path.isfile(f'sayuDB/datas/{name}.ezdb'):
-        os.remove(f'sayuDB/datas/{name}.ezdb')
+    if os.path.isfile(f'{os.path.dirname(__file__)}/datas/{name}.ezdb'):
+        os.remove(f'{os.path.dirname(__file__)}/datas/{name}.ezdb')
         print(f"Database dropped [ {name} ]")
     else:
         print("Database not found")
         
 def export_database(name: str, path_: str):
-    if os.path.isfile(f'sayuDB/datas/{name}.ezdb'):
-        shutil.copyfile(f'sayuDB/datas/{name}.ezdb', f"{path_}/{name}.ezdb")
+    if os.path.isfile(f'{os.path.dirname(__file__)}/datas/{name}.ezdb'):
+        shutil.copyfile(f'{os.path.dirname(__file__)}/datas/{name}.ezdb', f"{path_}/{name}.ezdb")
         print(f"Database exported [ {name}.ezdb ]")
     else:
         print("Database not found")
@@ -44,7 +44,7 @@ def import_database(path_: str):
                 db_ = eval(rdb.read())
             except:
                 db_ = rdb.read()
-        with open(f'sayuDB/datas/{db_["name"]}.ezdb', 'w') as wdb:
+        with open(f'{os.path.dirname(__file__)}/datas/{db_["name"]}.ezdb', 'w') as wdb:
             try:
                 json.dump(db_, wdb, indent=4)
                 print(f"Database imported [ {db_['name']} ]")
@@ -69,12 +69,12 @@ class sayuDB:
         if self.is_remote:
             self.remote.commit_database(self.database, content)
         else:
-            with open(f'sayuDB/datas/{self.database}.ezdb', 'w') as wdb:
+            with open(f'{os.path.dirname(__file__)}/datas/{self.database}.ezdb', 'w') as wdb:
                 json.dump(content, wdb, indent=4)
         return
 
     def save_db(self, content: object):
-        with open(f'sayuDB/datas/{self.database}.ezdb', 'w') as wdb:
+        with open(f'{os.path.dirname(__file__)}/datas/{self.database}.ezdb', 'w') as wdb:
             json.dump(content, wdb, indent=4)
         return
     
@@ -82,7 +82,7 @@ class sayuDB:
         if self.is_remote:
             db_ = self.remote.pull_database(self.database)
         else:
-            with open(f'sayuDB/datas/{self.database}.ezdb', 'r') as rdb:
+            with open(f'{os.path.dirname(__file__)}/datas/{self.database}.ezdb', 'r') as rdb:
                 db_ = json.loads(rdb.read())
         return db_
     
@@ -105,7 +105,7 @@ class sayuDB:
         - int   
         - dict
         """
-        with open(f'sayuDB/datas/{self.database}.ezdb', 'r') as rdb:
+        with open(f'{os.path.dirname(__file__)}/datas/{self.database}.ezdb', 'r') as rdb:
             rdb = eval(rdb.read())
         if name in rdb:
             print("Table already exist")
@@ -122,7 +122,7 @@ class sayuDB:
             print("Table created")
             
     def drop_table(self, name: str):
-        with open(f'sayuDB/datas/{self.database}.ezdb', 'r') as rdb:
+        with open(f'{os.path.dirname(__file__)}/datas/{self.database}.ezdb', 'r') as rdb:
             rdb = eval(rdb.read())
         if name not in rdb:
             print("Table not found")

@@ -1,22 +1,22 @@
-import sys, json
+import sys, json, os
 import sayuDB.processor as sayuDB
 
-with open('sayuDB/users.json', 'r') as user:
+with open(f'{os.path.dirname(__file__)}/users.json', 'r') as user:
     user = json.load(user)
-with open('sayuDB/config.json', 'r') as config:
+with open(f'{os.path.dirname(__file__)}/config.json', 'r') as config:
     config = json.load(config)
 
 def save_conf():
-    with open('sayuDB/users.json', 'w')as wconf:
+    with open(f'{os.path.dirname(__file__)}/users.json', 'w')as wconf:
         json.dump(user, wconf, indent=4)
-    with open('sayuDB/config.json', 'w')as wconf:
+    with open(f'{os.path.dirname(__file__)}/config.json', 'w')as wconf:
         json.dump(config, wconf, indent=4)
     return
 
 try:
     sys.argv[1]
 except:
-    print("Read the doc here : https://github.com/Arsybai/sayuDB/blob/main/README.md")
+    print("Read the doc here : https://github.com/Arsybai/blob/main/README.md")
     print("""
 [ USERS ]
 Show Users  \t\t: show users
@@ -36,7 +36,7 @@ Block IP  \t\t\t: block ip <ip>
     exit()
 
 if sys.argv[1] == "help" or sys.argv[1] == '--h':
-    print("sayuDB v0.0.1\nRead the doc here : https://github.com/Arsybai/sayuDB/blob/main/README.md")
+    print("sayuDB v0.0.3\nRead the doc here : https://github.com/Arsybai/blob/main/README.md")
     print("""
 [ USERS ]
 Show Users  \t\t: show users
@@ -44,7 +44,7 @@ Create user \t\t: create user <username> <password>
 Remove user \t\t: remove user <username>
 
 [ DATABASE ]
-Show Database   \t: show database
+Show Database   \t: show databases
 Create Database \t: create database <database_name>
 Drop Database \t\t: drop database <database_name>
 Grant user \t\t: grant user <username> <database_name>
@@ -102,6 +102,6 @@ elif sys.argv[1] == 'grant' and sys.argv[2] == 'user':
 elif sys.argv[1] == 'activate' and sys.argv[2] == 'server':
     import os, platform
     if platform.system() == 'Windows':
-        os.system(f'py sayuDB/server.py {sys.argv[3]}')
+        os.system(f'py {os.path.dirname(__file__)}/server.py {sys.argv[3]}')
     else:
-        os.system(f'python3 sayuDB/server.py {sys.argv[3]}')
+        os.system(f'python3 {os.path.dirname(__file__)}server.py {sys.argv[3]}')
