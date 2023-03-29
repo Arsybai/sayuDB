@@ -1,3 +1,5 @@
+![banner](https://images.arsybai.app/images/pOMsOCbxLR.png)
+
 # Documentation
 
 ##### Table of content
@@ -43,6 +45,10 @@ import sayuDB
 # Creating database
 sayuDB.create_database('myDB')
 ```
+
+```shell
+> python3 -m sayuDB create database <database_name>
+```
 You can also create databases with other names. sayuDB allows you to create any number of databases at a given site. Database names must have an alphabetic first character, can not contain space and are limited to 63 bytes in length.
 
 If you do not want to use your database anymore you can remove it. For example, you can destroy it using the following function:
@@ -50,6 +56,10 @@ If you do not want to use your database anymore you can remove it. For example, 
 import sayuDB
 
 sayuDB.drop_database('myDB')
+```
+
+```shell
+> python3 -m sayuDB drop database <database_name>
 ```
 
 You can import export using:
