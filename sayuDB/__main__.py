@@ -28,6 +28,8 @@ Show Database   \t: show databases
 Create Database \t: create database <database_name>
 Drop Database \t\t: drop database <database_name>
 Grant user \t\t: grant user <username> <database_name>
+Import Database \t: import database <path_to_ezdb>
+Export Database \t: export database <database_name> <output_path>
 
 [ SERVER ]
 Activate Server \t: activate server <port>
@@ -36,7 +38,7 @@ Block IP  \t\t\t: block ip <ip>
     exit()
 
 if sys.argv[1] == "help" or sys.argv[1] == '--h':
-    print("sayuDB v0.0.3\nRead the doc here : https://github.com/Arsybai/blob/main/README.md")
+    print("sayuDB v0.0.5\nRead the doc here : https://github.com/Arsybai/blob/main/README.md")
     print("""
 [ USERS ]
 Show Users  \t\t: show users
@@ -48,6 +50,8 @@ Show Database   \t: show databases
 Create Database \t: create database <database_name>
 Drop Database \t\t: drop database <database_name>
 Grant user \t\t: grant user <username> <database_name>
+Import Database \t: import database <path_to_ezdb>
+Export Database \t: export database <database_name> <output_path>
 
 [ SERVER ]
 Activate Server \t: activate server <port>
@@ -105,3 +109,8 @@ elif sys.argv[1] == 'activate' and sys.argv[2] == 'server':
         os.system(f'py {os.path.dirname(__file__)}/server.py {sys.argv[3]}')
     else:
         os.system(f'python3 {os.path.dirname(__file__)}server.py {sys.argv[3]}')
+
+elif sys.argv[1] == 'import' and sys.argv[2] == 'database':
+    sayuDB.import_database(sys.argv[3])
+elif sys.argv[1] == 'export' and sys.argv[2] == 'database':
+    sayuDB.export_database(sys.argv[3], sys.argv[4])
