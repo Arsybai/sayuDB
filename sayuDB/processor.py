@@ -105,8 +105,7 @@ class sayuDB:
         - int   
         - dict
         """
-        with open(f'{os.path.dirname(__file__)}/datas/{self.database}.ezdb', 'r') as rdb:
-            rdb = eval(rdb.read())
+        rdb = self.openDB()
         if name in rdb:
             print("Table already exist")
         else:
@@ -199,6 +198,20 @@ class sayuDB:
             idx += 1
         db_[table]['datas'].append(data_)
         self.save_table(table, db_)
+
+    def insert_many(self, table:str, col, contents:list):
+        """
+        contents = [
+        ["a"],
+        ["b"]
+        ]
+        """
+        try:
+            contents[0][0]
+            for row in contents:
+                self.insert_row(table, col, row)
+        except:
+            raise Exception("Invalid contents list")
         
     def select_row(self, table: str, col, where=None, order_by=None, as_json=False, limit=None):
         """_summary_
@@ -249,7 +262,7 @@ class sayuDB:
         #the anu anu
         if as_json:
             try:
-                return json.dumps(datas_)
+                return json.loads(datas_)
             except:
                 return datas_
         headeer_ = []
@@ -298,6 +311,17 @@ class sayuDB:
                 if i[col_] == val_:
                     i[set_col] = set_val
         self.save_table(table, db_)
+        return "Column updated"
+    
+    def update_row_json(self, table:str, set_:object, where:str):
+        """
+        set_ = {
+        "col1":"data1",
+        "col2":"data2"
+        }
+        """
+        for i in set_:
+            self.update_row(table, f"{i}={set_[i]}", where)
         return "Column updated"
     
     def delete_row(self, table: str, where: str):

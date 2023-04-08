@@ -19,31 +19,35 @@ def decode_base64(encoded_string):
     decoded_string = decoded_bytes.decode('utf-8')
     return decoded_string
 
-with open(f'{os.path.dirname(__file__)}/users.json', 'r') as user:
-    user = json.load(user)
-with open(f'{os.path.dirname(__file__)}/config.json', 'r') as config:
-    config = json.load(config)
+def user():
+    with open(f'{os.path.dirname(__file__)}/users.json', 'r') as user:
+        user = json.load(user)
+    return user
+def config():
+    with open(f'{os.path.dirname(__file__)}/config.json', 'r') as config:
+        config = json.load(config)
+    return config
 
 def save_conf():
     with open('users.json', 'w')as wconf:
-        json.dump(user, wconf, indent=4)
+        json.dump(user(), wconf, indent=4)
     with open('config.json', 'w')as wconf:
-        json.dump(config, wconf, indent=4)
+        json.dump(config(), wconf, indent=4)
     return
 
 def checkAuth():
     username = decode_base64(request.form['username'])
     password = decode_base64(request.form['password'])
-    if username not in user:
+    if username not in user():
         return "User not found"
-    if password != user[username]['password']:
+    if password != user()[username]['password']:
         return "Invalid credentials"
     if username == 'root':
         return "Action rejected"
     return True
 
 def hasAccess(username, database):
-    if database in user[username]['access']:
+    if database in user()[username]['access']:
         return True
     return
 
@@ -55,9 +59,9 @@ def ping():
 def oauth():
     username = decode_base64(request.form['username'])
     password = decode_base64(request.form['password'])
-    if username not in user:
+    if username not in user():
         return "User not found"
-    if password != user[username]['password']:
+    if password != user()[username]['password']:
         return "Invalid credentials"
     return 'ok'
 
@@ -70,7 +74,7 @@ def database_existence():
         return "Database not found in server"
     if not checkAuth():
         return "Authorization rejected"
-    if username not in user or database not in user[username]['access']:
+    if username not in user() or database not in user()[username]['access']:
         return "Database not found in server"
     return 'ok'
     
@@ -78,12 +82,12 @@ def database_existence():
 def commit():
     username = decode_base64(request.form['username'])
     database = request.form['database']
-    content = json.load(decode_base64(request.form['content']))
+    content = decode_base64(request.form['content'])
     if not checkAuth():
         return "Authorization rejected"
     if not hasAccess(username, database):
         return "Database not found in server"
-    sayuDB.sayuDB(database).save_db(content)
+    sayuDB.sayuDB(database).save_db(eval(content))
     return 'ok'
 
 @app.route('/pull')
@@ -94,7 +98,7 @@ def pull():
         return "Authorization rejected"
     if not hasAccess(username, database):
         return "Database not found in server"
-    return sayuDB.sayuDB(database).openDB()
+    return jsonify(sayuDB.sayuDB(database).openDB())
 
 
 if __name__ == "__main__":

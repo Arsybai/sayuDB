@@ -44,13 +44,11 @@ class remote:
         return True
     
     def commit_database(self, database:str, content):
-        response = sendRequest(self.host+'/commit', {'username':encode_base64(self.username), 'password':encode_base64(self.password), 'database':database, 'content':str(encode_base64(content))}, 'POST')
+        response = sendRequest(self.host+'/commit', {'username':encode_base64(self.username), 'password':encode_base64(self.password), 'database':database, 'content':encode_base64(str(content))}, 'POST')
         if response != 'ok':
             exit(response)
         return True
     
     def pull_database(self, database:str):
         response = sendRequest(self.host+'/pull', {'username':encode_base64(self.username), 'password':encode_base64(self.password), 'database':database})
-        if response != 'ok':
-            exit(response)
-        return True
+        return json.loads(response)
