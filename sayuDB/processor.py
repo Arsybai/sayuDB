@@ -275,10 +275,7 @@ class sayuDB:
             as_json (bool, optional): return as json or table. Defaults to False.
         """
         db_ = self.openDB()
-        if limit != None:
-            datas_ = db_[table]['datas'][:limit]
-        else:
-            datas_ = db_[table]['datas'][:limit]
+        datas_ = db_[table]['datas']
         if col == '*':
             datas_ = datas_
         else:
@@ -289,19 +286,107 @@ class sayuDB:
                     if u not in col:
                         del i[u]
                 idx += 1
-        if where != None and ' contain ' in where:
+        def findWhere(wheree, type_=None):
             temp_ = []
-            for i in datas_:
-                if self.eval_typedata('str', where.split(" contain ")[1]) in str(i[where.split(" contain ")[0]]):
-                    temp_.append(i)
-            datas_ = temp_
-        if where != None and ' contain ' not in where:
-            temp_ = []
-            for i in datas_:
-                if i[where.split("=")[0]] == self.eval_typedata(db_[table]['column'][where.split("=")[0]], where.split("=")[1]):
-                    temp_.append(i)
-            datas_ = temp_
+            if type_ == "AND":
+                for i in datas_:
+                    def isMatch(ii):
+                        if i[wheree[ii].split("=")[0]] == self.eval_typedata(db_[table]['column'][wheree[ii].split("=")[0]], wheree[ii].split("=")[1]):
+                            return True
+                        return False
+                    def isNot(ii):
+                        if i[wheree[ii].split("!=")[0]] != self.eval_typedata(db_[table]['column'][wheree[ii].split("!=")[0]], wheree[ii].split("!=")[1]):
+                            return True
+                        return False
+                    def isContain(ii):
+                        if self.eval_typedata('str', wheree[ii].split(" contain ")[1]) in str(i[wheree[ii].split(" contain ")[0]]):
+                            return True
+                        return False
+                    
+                    the_e = []
+                    if " contain " in wheree[0]:
+                        the_e.append("isContain(0)")
+                    elif "!=" in wheree[0]:
+                        the_e.append("isNot(0)")
+                    else:
+                        the_e.append("isMatch(0)")
+                    if " contain " in wheree[1]:
+                        the_e.append("isContain(1)")
+                    elif "!=" in wheree[1]:
+                        the_e.append("isNot(1)")
+                    else:
+                        the_e.append("isMatch(1)")
+                    
+                    if eval(the_e[0]) and eval(the_e[1]):
+                        temp_.append(i)
+
+            elif type_ == "OR":
+                for i in datas_:
+                    def isMatch(ii):
+                        if i[wheree[ii].split("=")[0]] == self.eval_typedata(db_[table]['column'][wheree[ii].split("=")[0]], wheree[ii].split("=")[1]):
+                            return True
+                        return False
+                    def isNot(ii):
+                        if i[wheree[ii].split("!=")[0]] != self.eval_typedata(db_[table]['column'][wheree[ii].split("!=")[0]], wheree[ii].split("!=")[1]):
+                            return True
+                        return False
+                    def isContain(ii):
+                        if self.eval_typedata('str', wheree[ii].split(" contain ")[1]) in str(i[wheree[ii].split(" contain ")[0]]):
+                            return True
+                        return False
+                    
+                    the_e = []
+                    if " contain " in wheree[0]:
+                        the_e.append("isContain(0)")
+                    elif "!=" in wheree[0]:
+                        the_e.append("isNot(0)")
+                    else:
+                        the_e.append("isMatch(0)")
+                    if " contain " in wheree[1]:
+                        the_e.append("isContain(1)")
+                    elif "!=" in wheree[1]:
+                        the_e.append("isNot(1)")
+                    else:
+                        the_e.append("isMatch(1)")
+                    
+                    if eval(the_e[0]) or eval(the_e[1]):
+                        temp_.append(i)
+
+            else:
+                for i in datas_:
+                    def isMatch(ii):
+                        if i[wheree[ii].split("=")[0]] == self.eval_typedata(db_[table]['column'][wheree[ii].split("=")[0]], wheree[ii].split("=")[1]):
+                            return True
+                        return False
+                    def isNot(ii):
+                        if i[wheree[ii].split("!=")[0]] != self.eval_typedata(db_[table]['column'][wheree[ii].split("!=")[0]], wheree[ii].split("!=")[1]):
+                            return True
+                        return False
+                    def isContain(ii):
+                        if self.eval_typedata('str', wheree[ii].split(" contain ")[1]) in str(i[wheree[ii].split(" contain ")[0]]):
+                            return True
+                        return False
+                    
+                    the_e = []
+                    if " contain " in wheree[0]:
+                        the_e.append("isContain(0)")
+                    elif "!=" in wheree[0]:
+                        the_e.append("isNot(0)")
+                    else:
+                        the_e.append("isMatch(0)")
+                    
+                    if eval(the_e[0]):
+                        temp_.append(i)
+            return temp_
         
+        if where != None:
+            if " && " in where:
+                datas_ = findWhere(where.split(" && "), "AND")
+            elif " || " in where:
+                datas_ = findWhere(where.split(" || "), "OR")
+            else:
+                datas_ = findWhere([where])
+
         if order_by != None:
             key_ = order_by.split("|")[0]
             sort_ = order_by.split("|")[1]
@@ -311,6 +396,8 @@ class sayuDB:
                 datas_ = sorted(datas_, key=itemgetter(key_), reverse=True)
                     
         #the anu anu
+        if limit != None:
+            datas_ = datas_[:limit]
         if as_json:
             try:
                 return json.loads(datas_)
