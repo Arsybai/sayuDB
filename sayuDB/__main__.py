@@ -22,7 +22,7 @@ except:
     exit()
 
 if sys.argv[1] == "help" or sys.argv[1] == '--h':
-    print("sayuDB v0.0.7\nRead the doc here : https://github.com/Arsybai/blob/main/README.md")
+    print("sayuDB v0.0.8\nRead the doc here : https://github.com/Arsybai/blob/main/README.md")
     print("""
 [ USERS ]
 Show Users  \t\t: show users
