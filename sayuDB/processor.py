@@ -2,7 +2,7 @@ import json, os, shutil, sys
 from tabulate import tabulate
 from operator import itemgetter
 import sayuDB.remote as remote
-import datetime, random
+import datetime, random, time
 
 functions = [
     "today()",
@@ -464,25 +464,22 @@ class sayuDB:
     
     def delete_row(self, table: str, where: str):
         db_ = self.openDB()
+        temp_ = []
         if table not in db_:
             sys.exit("Table not found")
         if '=' in where:
             col_ = where.split('=')[0]
             val_ = where.split('=')[1]
-            idx = 0
             for i in db_[table]['datas']:
-                if str(i[col_]) == str(val_):
-                    db_[table]['datas'].remove(db_[table]['datas'][idx])
-                idx += 1
+                if str(i[col_]) != str(val_):
+                    temp_.append(i)
         elif ' contain ' in where:
             col_ = where.split(' contain ')[0]
             val_ = where.split(' contain ')[1]
-            idx = 0
             for i in db_[table]['datas']:
-                if str(val_) in str(i[col_]):
-                    db_[table]['datas'].remove(db_[table]['datas'][idx])
-                idx += 1
-            
+                if str(val_) not in str(i[col_]):
+                    temp_.append(i)
+        db_[table]["datas"] = temp_
         self.save_table(table, db_)
 
     def alter_table_rename_column(self,table:str, col:str, to_:str):
