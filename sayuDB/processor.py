@@ -145,9 +145,10 @@ class sayuDB:
                     row_.append(i[u])
                 rows_.append(row_)
             print(tabulate(rows_, headers=headeer_))
-            
-    def insert_row(self, table: str, col, contents: list):
-        """_summary_
+
+    def insert_row(self, table:str, col, contents: list):
+        """
+        _summary_
 
         Args:
             table (str): the table name
@@ -159,8 +160,21 @@ class sayuDB:
         db_ = self.openDB()
         if type(col) == str:
             col = col.split(',')
+        column_ = db_[table]["column"]
+        for i in col:
+            if i not in column_:
+                raise Exception(f"Unknown column {i}")
         idx = 0
         data_ = {}
+        for i in column_:
+            if column_[i] == "str":
+                data_[i] = "null"
+            elif column_[i] == "int":
+                data_[i] = 0
+            elif column_[i] == "float":
+                data_[i] = 0.0
+            elif column_[i] == "dict":
+                data_[i] = {}
         for i in col:
             if i not in db_[table]['column']:
                 print(f"Column {i} not found")
