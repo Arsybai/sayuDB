@@ -2,6 +2,22 @@ import json, os, shutil, sys
 from tabulate import tabulate
 from operator import itemgetter
 import sayuDB.remote as remote
+import datetime, random
+
+functions = [
+    "today()",
+    "index()",
+    "genID()",
+    "increase()"
+]
+
+def genID():
+    return random.randint(10000, 99999)
+
+def today():
+    now = datetime.datetime.now()
+    dt_string = now.strftime('%Y-%m-%d %H:%M:%S')
+    return dt_string
 
 def create_database(name: str):
     config_ = {
@@ -156,8 +172,18 @@ class sayuDB:
             contents (list): the content for each column EX ['content 1', 'content 2']
             
             _Note : You can also use str for col with comma for the separated EX 'col1,col2'_
+
+        Contents Function:
+            today()\t\t: Generate today datetime (only work in str typedata)
+            index()\t\t: Indexing the number of row. it can be use as id too (only work in int typedata)
+            genID()\t\t: Generate random 5 digits ID
+            increase()\t: Increase from the last row value (Only work in int typedata)
         """
+
+
         db_ = self.openDB()
+        def index():
+            return len(db_[table]["datas"]) + 1
         if type(col) == str:
             col = col.split(',')
         column_ = db_[table]["column"]
@@ -184,13 +210,24 @@ class sayuDB:
                 sys.exit()
             elif db_[table]['column'][i] == 'str':
                 try:
-                    data_[i] = str(contents[idx])
+                    if contents[idx] in functions:
+                        data_[i] = eval(contents[idx])
+                    else:
+                        data_[i] = str(contents[idx])
                 except:
                     print(f"The content typedata invalid at column {i} content {contents[idx]}")
                     sys.exit()
             elif db_[table]['column'][i] == 'int':
+                def increase():
+                    try:
+                        return int(db_[table]['datas'][-1][i]) + 1
+                    except:
+                        return 0
                 try:
-                    data_[i] = int(contents[idx])
+                    if contents[idx] in functions:
+                        data_[i] = eval(contents[idx])
+                    else:
+                        data_[i] = int(contents[idx])
                 except:
                     print(f"The content typedata invalid at column {i} content {contents[idx]}")
                     sys.exit()
