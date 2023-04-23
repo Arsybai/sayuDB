@@ -482,6 +482,29 @@ class sayuDB:
             for i in db_[table]['datas']:
                 if str(val_) not in str(i[col_]):
                     temp_.append(i)
+        elif 'row between ' in where:
+            temp_ = []
+            to_del_ = []
+            pp_ = where.replace("row between ","").split("-")
+            if int(pp_[0]) > len(db_[table]["datas"]) or int(pp_[1]) > len(db_[table]["datas"]):
+                raise Exception("Row number out of range")
+            if int(pp_[0]) > int(pp_[1]):
+                raise Exception("The number between x-y. the x can not bigger or same with the y")
+            for i in range(int(pp_[0])-1, int(pp_[1])-1):
+                to_del_.append(db_[table]["datas"][i])
+            for i in db_[table]["datas"]:
+                if i not in to_del_:
+                    temp_.append(i)
+        elif 'row ' in where and 'between' not in where:
+            temp_ = []
+            to_del_ = []
+            pp_ = where.replace("row ","")
+            if int(pp_) > len(db_[table]["datas"]):
+                raise Exception("Row number out of range")
+            to_del_.append(db_[table]["datas"][int(pp_)-1])
+            for i in db_[table]["datas"]:
+                if i not in to_del_:
+                    temp_.append(i)
         db_[table]["datas"] = temp_
         self.save_table(table, db_)
 
