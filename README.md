@@ -9,22 +9,22 @@ It supports a large part of the SQL standard feature
 ##### Table of contents
 
 - [Installation](#installation)
-- [Create or remove user](#Create_or_remove_user)
-- [Grant privileges to user](#Grant_privileges_to_user)
-- [Create and drop database](#Create_and_drop_database)
-- [Import and export database](#Import_and_export_database)
-- [Activate or deactivate server](#Activate_or_deactivate_server)
-- [Using the sayuDB](#Using_the_sayuDB)
-- [Create table](#Create_table)
-- [Drop table](#Drop_table)
-- [Show table](#Show_table)
+- [Create or remove user](#Create-or-remove-user)
+- [Grant privileges to user](#Grant-privileges-to-user)
+- [Create and drop database](#Create-and-drop-database)
+- [Import and export database](#Import-and-export-database)
+- [Activate or deactivate server](#Activate-or-deactivate-server)
+- [Using the sayuDB](#Using-the-sayuDB)
+- [Create table](#Create-table)
+- [Drop table](#Drop-table)
+- [Show table](#Show-table)
 - [Insert](#Insert)
 - [Select](#Select)
 - [Where](#Where)
 - [Update](#Update)
 - [Delete](#Delete)
-- [Alter table](#Alter_table)
-- [Clear table](#Clear_table)
+- [Alter table](#Alter-table)
+- [Clear table](#Clear-table)
 ---
 
 ### Installation
