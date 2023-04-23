@@ -291,3 +291,9 @@ To clear table use this following function
 db.clear_table(table="<table_name>")
 ```
 This will erase all rows data in the table.
+
+---
+# V0.0.9 Changelog
+- `ADD` [Now you can define "as_json" in class](https://github.com/Arsybai/sayuDB/commit/7ce2f54a1b94d8174b7d60c4f988a62cceedfd2b)
+- `ADD` [Delete row with row number or between row number](https://github.com/Arsybai/sayuDB/commit/734748513524ee4b9ac7ff14054a9153d7984825)
+- `UPDATE` [Update the documentation](https://github.com/Arsybai/sayuDB/blob/main/README.md)
