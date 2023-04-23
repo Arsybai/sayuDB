@@ -72,9 +72,10 @@ def import_database(path_: str):
 
 class sayuDB:
     
-    def __init__(self, database, username:str=None, password:str=None, host:str=None):
+    def __init__(self, database, username:str=None, password:str=None, host:str=None, as_json=None):
         self.database = database
         self.is_remote = False
+        self.as_json = as_json
         if username != None and host != None:
             self.is_remote = True
             self.remote = remote.remote(username, password, host)
@@ -274,6 +275,8 @@ class sayuDB:
             order_by (_type_, optional): short data by column asc or desc. Defaults to None.
             as_json (bool, optional): return as json or table. Defaults to False.
         """
+        if self.as_json != None:
+            as_json = self.as_json
         db_ = self.openDB()
         datas_ = db_[table]['datas']
         if col == '*':
