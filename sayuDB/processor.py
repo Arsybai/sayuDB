@@ -449,7 +449,7 @@ class sayuDB:
                 if str(val_) in str(i[col_]):
                     i[set_col] = set_val
             else:
-                if i[col_] == val_:
+                if str(i[col_]) == val_:
                     i[set_col] = set_val
         self.save_table(table, db_)
         return "Column updated"
