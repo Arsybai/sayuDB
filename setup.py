@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name="sayuDB",
-    version="0.0.9",
+    version="1.0.0",
     author="Arsybai",
     description="Database management system based on python and JSON.",
     packages=["sayuDB"],
@@ -17,6 +17,12 @@ setuptools.setup(
     'tabulate',
     'flask'
     ],
+    entry_points={
+        "console_scripts": [
+            "sayuDB = sayuDB.__main__:main",
+            "sayudb = sayuDB.__main__:main"
+        ]
+    },
     long_description_content_type="text/markdown",
     long_description="""![banner](https://images.arsybai.app/images/pOMsOCbxLR.png)
 ---

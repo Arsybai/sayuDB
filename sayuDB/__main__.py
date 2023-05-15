@@ -22,7 +22,7 @@ except:
     exit()
 
 if sys.argv[1] == "help" or sys.argv[1] == '--h':
-    print("sayuDB v0.0.9\nRead the doc here : https://github.com/Arsybai/blob/main/README.md")
+    print("sayuDB v1.0.0\nRead the doc here : https://github.com/Arsybai/blob/main/README.md")
     print("""
 [ USERS ]
 Show Users  \t\t: show users
@@ -96,6 +96,7 @@ elif sys.argv[1] == 'activate' and sys.argv[2] == 'server':
     if platform.system() == 'Windows':
         os.system(f'py {os.path.dirname(__file__)}/server.py {sys.argv[3]}')
     else:
+        os.system(f"screen -X -S sayuDB kill")
         os.system(f"screen -dmS sayuDB")
         os.system(f"screen -S sayuDB -X stuff 'python3 {os.path.dirname(__file__)}/server.py {sys.argv[3]}\n'")
     print("Server activated. access it within your IP")
