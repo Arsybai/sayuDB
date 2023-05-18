@@ -13,6 +13,9 @@ def save_conf():
         json.dump(config, wconf, indent=4)
     return
 
+def main():
+    pass
+
 try:
     sys.argv[1]
 except:
@@ -68,7 +71,8 @@ elif sys.argv[1] == 'show':
         for i in user:
             print(f"> {i}")
     elif sys.argv[2] == 'databases':
-        sayuDB.show_databases()
+        for i in sayuDB.show_databases():
+            print(f'> {i}')
 
 elif sys.argv[1] == 'remove':
     if sys.argv[2] == 'user':
