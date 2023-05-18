@@ -181,7 +181,6 @@ class sayuDB:
             increase()\t: Increase from the last row value (Only work in int typedata)
         """
 
-
         db_ = self.openDB()
         def index():
             return len(db_[table]["datas"]) + 1

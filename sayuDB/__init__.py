@@ -1,4 +1,5 @@
 from .processor import *
+from .SQLite import sql
 import os, json
 
 if not os.path.isfile(f'{os.path.dirname(__file__)}/config.json'):
@@ -18,3 +19,5 @@ if not os.path.isfile(f'{os.path.dirname(__file__)}/users.json'):
 
 if not os.path.isdir(f'{os.path.dirname(__file__)}/datas'):
     os.makedirs(f'{os.path.dirname(__file__)}/datas')
+if not os.path.isdir(f'{os.path.dirname(__file__)}/sql'):
+    os.makedirs(f'{os.path.dirname(__file__)}/sql')
