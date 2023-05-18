@@ -35,7 +35,7 @@ def show_databases():
     lists = []
     for i in databases:
         if '.ezdb' in i:
-            print(f"> {i.replace('.ezdb','')}")
+            # print(f"> {i.replace('.ezdb','')}")
             lists.append(i.replace('.ezdb',''))
     return lists
         

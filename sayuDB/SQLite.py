@@ -18,7 +18,6 @@ class sql:
             self.connection.row_factory = dict_factory
         else:
             self.connection = sqlite3.connect(f'{os.path.dirname(__file__)}/sql/{database}.db')
-        # if host == None:
         pass
 
     def execute(self, query, param=None):
@@ -29,7 +28,6 @@ class sql:
                 response = self.connection.execute(query)
             if self.auto_commit:
                 self.connection.commit()
-            
             return response
         except Exception as e:
             return e
