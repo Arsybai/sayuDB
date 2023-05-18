@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name="sayuDB",
-    version="1.1.0",
+    version="1.1.4",
     author="Arsybai",
     description="Database management system based on python and JSON.",
     packages=["sayuDB"],
