@@ -14,10 +14,10 @@ class sql:
         self.as_json = as_json
         self.auto_commit = auto_commit
         if as_json:
-            self.connection = sqlite3.connect(f'{os.path.dirname(__file__)}/sql/{database}.db')
+            self.connection = sqlite3.connect(f'{os.path.dirname(__file__)}/sql/{database}.db', check_same_thread=False)
             self.connection.row_factory = dict_factory
         else:
-            self.connection = sqlite3.connect(f'{os.path.dirname(__file__)}/sql/{database}.db')
+            self.connection = sqlite3.connect(f'{os.path.dirname(__file__)}/sql/{database}.db', check_same_thread=False)
         pass
 
     def execute(self, query, param=None):
